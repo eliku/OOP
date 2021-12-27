@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lesson2
+namespace Lesson2_Task4
 {
     enum Type
     {
@@ -22,11 +22,40 @@ namespace Lesson2
         private int _balance;         //баланс
         private Type _type;
 
-        public void inputAccount(int Number, int Balance, Type type)
+        public int number
         {
-            _number = Number;
-            _balance = Balance;
-            _type = type;
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+            }
+        }
+
+        public int balance
+        {
+            get
+            {
+                return _balance;
+            }
+            set
+            {
+                _balance = value;
+            }
+        }
+
+        public Type type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+            }
         }
         public string Info()
         {
