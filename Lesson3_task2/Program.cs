@@ -6,7 +6,11 @@ namespace Lesson3_task2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            StrClass strProba = new StrClass();
+
+            Console.WriteLine(strProba.ReverseString("Hello World"));
         }
+
+        
     }
 }
