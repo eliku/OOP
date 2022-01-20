@@ -73,6 +73,16 @@ namespace Task2
             _x = x;
             _y = y;
         }
+
+        public Figure(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
+
+        public Figure()
+        {
+        }
         public void MovedHorizontally(bool Up, int numberSteps)
         {
             if (numberSteps == 0) return;

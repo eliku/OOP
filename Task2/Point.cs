@@ -9,7 +9,10 @@ namespace Task2
 
     class Point : Figure
     {
-        public Point(Color color, bool state, int x, int y) : base(color, state, x, y)
+        public Point(int x, int y) : base(x, y)
+        {
+        }
+        public Point() : base()
         {
         }
     }
