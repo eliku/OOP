@@ -116,6 +116,11 @@ namespace CourseWork
 
             Console.Clear();
         }
+        public ConsWindows(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
 
         //метод передвижение по консоле
         public void Position(int x, int y) 

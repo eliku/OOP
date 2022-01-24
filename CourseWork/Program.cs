@@ -33,8 +33,14 @@ namespace CourseWork
             }
             var ConsoleMain = new ConsWindows(120, 40, "File Manager", ConsoleColor.DarkBlue, ConsoleColor.White);
 
-            ConsoleMain.Position(0,0);
+            //прорисовка экрана
+            var lines = new Lines(1,0);
+            lines.horizontal('_');
+            // for (int i = 0; i< ConsoleMain.Height - 2; i++) Console.WriteLine(($"|{new string(' ', ConsoleMain.Width - 2)}|"));
+            var lines2 = new Lines(1, ConsoleMain.Height - 2);
+            lines2.horizontal('_');
 
+            ConsoleMain.Position(0, 0);
             Console.Read();
         }
 
