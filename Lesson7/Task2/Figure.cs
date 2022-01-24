@@ -23,42 +23,66 @@ namespace Task2
         private int _x;              //координата X
         private int _y;              //координата Y
 
-        public abstract Color color
+        public Color color
         {
-            get;
-            set;
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+            }
         }
 
-        public abstract bool state
+        public bool state
         {
-            get;
-            set;
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                _state = value;
+            }
         }
 
-        public abstract int x
+        public int x
         {
-            get;
-            set;
+            get
+            {
+                return _x;
+            }
+            set
+            {
+                _x = value;
+            }
         }
 
         public int y
         {
-            get;
-            set;
+            get
+            {
+                return _y;
+            }
+            set
+            {
+                _y = value;
+            }
         }
 
         public Figure(Color color, bool state, int x, int y)
         {
-            _color = this.color;
-            _state = this.state;
-            _x = this.x;
-            _y = this.y;
+            _color = color;
+            _state = state;
+            _x = x;
+            _y = y;
         }
 
         public Figure(int x, int y)
         {
-            _x = this.x;
-            _y = this.y;
+            _x = x;
+            _y = y;
         }
 
         public Figure()

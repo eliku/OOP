@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
-    class Rectangle :Point, Square<Point>
+    class Rectangle :Point, ISquare<Point>
     {
         public Rectangle(Color color, bool state, int x, int y) : base(x, y)
         {
 
         }
 
-        double Square<Point>.Square(params Point[] Point)
+        public double Square(params Point[] Point)
         {
             double dl1, dl2;
             dl1 = Math.Sqrt(Math.Pow((this.x - Point[0].x), 2) + Math.Pow((this.y - Point[0].y), 2));

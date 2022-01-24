@@ -14,5 +14,6 @@ namespace Task2
         public Point() : base()
         {
         }
+
     }
 }

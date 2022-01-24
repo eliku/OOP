@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
-    public interface Square<T>
-    {
-        double Square(params T[] T);
-    }
+     interface ISquare<T>
+     {
+         double Square(params T[] T);
+     }
 }
