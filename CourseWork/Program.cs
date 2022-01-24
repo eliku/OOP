@@ -6,11 +6,7 @@ namespace CourseWork
     class Program
     {
         private const int MF_BYCOMMAND = 0x00000000;
-        public const int SC_CLOSE = 0xF060;
-        public const int SC_MINIMIZE = 0xF020;
-        public const int SC_MAXIMIZE = 0xF030;
         public const int SC_SIZE = 0xF000;
-        private const int V = 40;
 
         [DllImport("user32.dll")]
         public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
@@ -35,8 +31,10 @@ namespace CourseWork
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
 
             }
-            
-            Console.Title = "File manager";
+            var ConsoleMain = new ConsWindows(120, 40, "File Manager", ConsoleColor.DarkBlue, ConsoleColor.White);
+
+            ConsoleMain.Position(0,0);
+
             Console.Read();
         }
 
