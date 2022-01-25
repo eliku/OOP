@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Text;
 
 namespace CourseWork
 {
@@ -113,15 +113,15 @@ namespace CourseWork
             Title = title;
             BackColor = backСolor;
             ForeColor = foreСolor;
-
+            Console.OutputEncoding = Encoding.UTF8;
             Console.Clear();
         }
-        public ConsWindows(int x, int y)
+        public ConsWindows(int x, int y, ConsoleColor foreColor)
         {
             X = x;
             Y = y;
+            ForeColor = foreColor;
         }
-
         //метод передвижение по консоле
         public void Position(int x, int y) 
         {
