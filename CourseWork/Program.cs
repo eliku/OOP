@@ -17,6 +17,8 @@ namespace CourseWork
         private const int MF_BYCOMMAND = 0x00000000;
         public const int SC_SIZE = 0xF000;
 
+        
+
         [DllImport("user32.dll")]
         public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
 
@@ -40,6 +42,20 @@ namespace CourseWork
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
 
             }
+            //сохранение конфигурации
+            configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            settings = configFile.AppSettings.Settings;
+
+            if (settings["Direction"] == null)
+            {
+                settings.Add("Direction", "C:\\");
+                dirName = "C:\\";
+            }
+            else
+            {
+                dirName = settings["Direction"].Value;
+            }
+
             var ConsoleMain = new ConsWindows(120, 40, "File Manager", ConsoleColor.DarkBlue, ConsoleColor.White);
 
             //прорисовка экрана
@@ -60,37 +76,16 @@ namespace CourseWork
             lines5.Horizontal('_', ConsoleMain.Width);
             ConsoleMain.Position(5, 0);
 
-            //сохранение конфигурации
-            configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            settings = configFile.AppSettings.Settings;
-
-            if (settings["Direction"] == null)
-            {
-                settings.Add("Direction", "C:\\");
-                //Вывод подкаталогов
-                dirName = "C:\\";
-            }
-            else
-            {
-                dirName = settings["Direction"].Value;
-            }
+            
 
             Console.WriteLine(dirName);
 
-
             var directoryNew = new IsDirectory(5,1,ConsoleColor.White);
             directoryNew.Name = dirName;
-            directoryNew.ReadAndWrite();
-                    //string[] files = Directory.GetFiles(dirName);
-                    //FileCnt = files.Length;
-            /*foreach (string s in files)
-            {
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(3, Console.CursorTop);
-                Console.WriteLine(s.Replace(dirName, ""));
-                //list.Add(s.Replace(dirName, ""));
-            }
-*/
+            directoryNew.ReadAndWriteFolder(ConsoleColor.White);
+            directoryNew.ReadAndWriteFile(ConsoleColor.Black);
+
+            
 
             Console.Read();
         }

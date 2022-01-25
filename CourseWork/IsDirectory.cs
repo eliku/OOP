@@ -11,6 +11,9 @@ namespace CourseWork
     {
         private string _name;
         private string[] _array;
+        private string[] _files;
+
+        public List<string> FolderList = new List<string>();
 
 
         public string Name 
@@ -24,6 +27,7 @@ namespace CourseWork
                 if (Directory.Exists(_name))
                 {
                     _array = Directory.GetDirectories(_name);
+                    _files = Directory.GetFiles(_name);
                 }
 
             }
@@ -43,15 +47,31 @@ namespace CourseWork
             Console.SetCursorPosition(X, Y);
         }
 
-        public void ReadAndWrite()
+        public void ReadAndWriteFolder(ConsoleColor color)
         {
+            ForeColor = color;
+
             foreach (string s in _array)
             {
-                Console.SetCursorPosition(3, Console.CursorTop);
+                this.Position(3, Y);
                 Console.WriteLine(s.Replace(_name, ""));
-                //list.Add(s.Replace(dirName, ""));
+                FolderList.Add(s.Replace(_name, ""));
+                Y++;
             }
 
+        }
+
+        public void ReadAndWriteFile(ConsoleColor color)
+        {
+            ForeColor = color;
+
+            foreach (string s in _files)
+            {
+                this.Position(3, Y);
+                Console.WriteLine(s.Replace(_name, ""));
+                FolderList.Add(s.Replace(_name, ""));
+                Y++;
+            }
         }
     }
 }
