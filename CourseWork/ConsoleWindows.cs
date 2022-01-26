@@ -13,6 +13,7 @@ namespace CourseWork
         //координаты точки
         private int _x;
         private int _y;
+        private int _ySave;
 
         public int Width
         {
@@ -106,6 +107,18 @@ namespace CourseWork
             }
         }
 
+        public int ySave
+        {
+            get
+            {
+                return _ySave;
+            }
+            set
+            {
+                _ySave = value;
+            }
+        }
+
         public ConsWindows(int width, int heihgt, string title, ConsoleColor backСolor, ConsoleColor foreСolor)
         {
             Width = width;
@@ -128,6 +141,14 @@ namespace CourseWork
             X = x;
             Y = y;
             Console.SetCursorPosition(X, Y);
+        }
+
+        public void SelectLine(int x, int y, ConsoleColor color, ConsoleColor frontColor,  string str)
+        {
+            BackColor = color;
+            ForeColor = frontColor;
+            this.Position(x, y);
+            Console.WriteLine(str);
         }
     }
 }

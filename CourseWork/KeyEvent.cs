@@ -8,13 +8,18 @@ namespace CourseWork
 {
     class KeyEvent
     {
-        // событие нажатия
-        public event EventHandler<myKeyEventArgs> KeyPress;
+        public event EventHandler<KeyEventArgs> KeyPress;
 
-        // метод запуска события
-        public void OnKeyPress(ConsoleKeyInfo _key)
+        // This is called when a key is pressed.
+        public void OnKeyPress(char key)
         {
-            KeyPress(this, new myKeyEventArgs(_key));
+            KeyEventArgs k = new KeyEventArgs();
+
+            if (KeyPress != null)
+            {
+                k.ch = key;
+                KeyPress(this, k);
+            }
         }
     }
 }

@@ -75,19 +75,44 @@ namespace CourseWork
             var lines5 = new Lines(1, ConsoleMain.Height - 2, ConsoleColor.Blue);   
             lines5.Horizontal('_', ConsoleMain.Width);
             ConsoleMain.Position(5, 0);
-
             
-
             Console.WriteLine(dirName);
 
             var directoryNew = new IsDirectory(5,1,ConsoleColor.White);
             directoryNew.Name = dirName;
             directoryNew.ReadAndWriteFolder(ConsoleColor.White);
             directoryNew.ReadAndWriteFile(ConsoleColor.Black);
+            ConsoleMain.Position(3, ConsoleMain.Height - 1);
+            ConsoleMain.ySave = 3;
 
-            
+            KeyEvent kevt = new KeyEvent();
+            ConsoleKeyInfo key;
 
-            Console.Read();
+            // Use a lambda expression to display the keypress.
+            kevt.KeyPress += (sender, e) =>
+            {
+                ConsoleMain.Position(ConsoleMain.X, ConsoleMain.Height - 1);
+                Console.Write(e.ch);
+                ConsoleMain.X++;
+            };
+
+            do
+            {
+                key = Console.ReadKey();
+                if (key.Key == ConsoleKey.DownArrow) {
+                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    ConsoleMain.ySave++;
+                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                }
+                if (key.Key == ConsoleKey.UpArrow) {
+                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    ConsoleMain.ySave--;
+                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                }
+                kevt.OnKeyPress(key.KeyChar);
+            } while (key.Key != ConsoleKey.Escape);
+
+            Environment.Exit(0);
         }
     }
 }
