@@ -11,9 +11,8 @@ namespace CourseWork
 {
     class Program
     {
-        static Configuration configFile;
-        static KeyValueConfigurationCollection settings;
-        static string dirName;
+        private const int BEGIN_POSITION = 3;
+        static string inputString;
         private const int MF_BYCOMMAND = 0x00000000;
         public const int SC_SIZE = 0xF000;
 
@@ -42,53 +41,20 @@ namespace CourseWork
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
 
             }
-            //сохранение конфигурации
-            configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            settings = configFile.AppSettings.Settings;
-
-            if (settings["Direction"] == null)
-            {
-                settings.Add("Direction", "C:\\");
-                dirName = "C:\\";
-            }
-            else
-            {
-                dirName = settings["Direction"].Value;
-            }
 
             var ConsoleMain = new ConsWindows(120, 40, "File Manager", ConsoleColor.DarkBlue, ConsoleColor.White);
 
-            //прорисовка экрана
-            //горизонтальная 
-            var lines = new Lines(1,0, ConsoleColor.Blue);            
-            lines.Horizontal('_', ConsoleMain.Width);
-            //вертикальная
-            var lines2 = new Lines(0, 1, ConsoleColor.Blue);           
-            lines2.Vertical('|', ConsoleMain.Height);
-            //вертикальная
-            var lines3 = new Lines(ConsoleMain.Width / 2, 1, ConsoleColor.Blue);
-            lines3.Vertical('|', ConsoleMain.Height);
-            //вертикальная
-            var lines4 = new Lines(ConsoleMain.Width-2, 1, ConsoleColor.Blue);
-            lines4.Vertical('|', ConsoleMain.Height);
-            //горизонтальная 
-            var lines5 = new Lines(1, ConsoleMain.Height - 2, ConsoleColor.Blue);   
-            lines5.Horizontal('_', ConsoleMain.Width);
-            ConsoleMain.Position(5, 0);
-            
-            Console.WriteLine(dirName);
+            ConsoleMain.ScreenВrawing();
 
             var directoryNew = new IsDirectory(5,1,ConsoleColor.White);
-            directoryNew.Name = dirName;
-            directoryNew.ReadAndWriteFolder(ConsoleColor.White);
-            directoryNew.ReadAndWriteFile(ConsoleColor.Black);
-            ConsoleMain.Position(3, ConsoleMain.Height - 1);
-            ConsoleMain.ySave = 3;
+
+            directoryNew.Name = null;
+            directoryNew.Position(BEGIN_POSITION, ConsoleMain.Height - 1);
+            ConsoleMain.ySave = BEGIN_POSITION;
 
             KeyEvent kevt = new KeyEvent();
             ConsoleKeyInfo key;
 
-            // Use a lambda expression to display the keypress.
             kevt.KeyPress += (sender, e) =>
             {
                 ConsoleMain.Position(ConsoleMain.X, ConsoleMain.Height - 1);
@@ -98,17 +64,58 @@ namespace CourseWork
 
             do
             {
-                key = Console.ReadKey();
-                if (key.Key == ConsoleKey.DownArrow) {
-                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.DownArrow) 
+                {
+                    ConsoleMain.SelectLine(BEGIN_POSITION, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
                     ConsoleMain.ySave++;
-                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    ConsoleMain.SelectLine(BEGIN_POSITION, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    inputString = "";
+                    directoryNew.OutInfoDirectory(new DirectoryInfo(directoryNew.FolderList[ConsoleMain.ySave - 1]));
                 }
-                if (key.Key == ConsoleKey.UpArrow) {
-                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                if (key.Key == ConsoleKey.UpArrow) 
+                {
+                    ConsoleMain.SelectLine(BEGIN_POSITION, ConsoleMain.ySave, ConsoleColor.DarkBlue, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
                     ConsoleMain.ySave--;
-                    ConsoleMain.SelectLine(3, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    ConsoleMain.SelectLine(BEGIN_POSITION, ConsoleMain.ySave, ConsoleColor.Gray, ConsoleColor.White, directoryNew.FolderList[ConsoleMain.ySave-1]);
+                    inputString = "";
+                    directoryNew.OutInfoDirectory(new DirectoryInfo(directoryNew.FolderList[ConsoleMain.ySave - 1]));
                 }
+                if (key.Key == ConsoleKey.Enter)
+                {
+                    if (inputString == "\0")
+                    {
+                        ConsoleMain.ScreenВrawing();
+                        directoryNew.Position(BEGIN_POSITION, 1);
+                        directoryNew.Name = directoryNew.Name + directoryNew.FolderList[ConsoleMain.ySave - 1];                    
+                        ConsoleMain.ySave = 0;                        
+                    }
+                    else {
+                        if (inputString.IndexOf("cd") != -1)
+                        {
+                            directoryNew.Name = inputString.Substring("cd".Length, inputString.Length - 2);
+                        }
+                        //удаление файла и каталога
+                        if (inputString.IndexOf("rm") != -1)
+                        {
+                            directoryNew.DelFiles();
+                        }
+                        //копирование каталога или файла
+                        if (inputString.IndexOf("cp") != -1)
+                        {
+                            directoryNew.Copy();
+                        }
+
+                        inputString = "";
+                    }
+                }   
+                ConsoleMain.BackColor = ConsoleColor.Black; ConsoleMain.ForeColor = ConsoleColor.White;
+                if (inputString == "")
+                {
+                    Console.SetCursorPosition(0, ConsoleMain.Height-1);
+                    Console.Write($"{new string(' ', ConsoleMain.Width)}");
+                }
+                inputString = inputString + key.KeyChar;
                 kevt.OnKeyPress(key.KeyChar);
             } while (key.Key != ConsoleKey.Escape);
 

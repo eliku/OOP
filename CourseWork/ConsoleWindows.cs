@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Text;
 
 namespace CourseWork
@@ -14,6 +15,7 @@ namespace CourseWork
         private int _x;
         private int _y;
         private int _ySave;
+
 
         public int Width
         {
@@ -91,6 +93,7 @@ namespace CourseWork
             }
             set
             {
+                if (value>=0)
                 _x = value;
             }
         }
@@ -103,6 +106,7 @@ namespace CourseWork
             }
             set
             {
+                if (value >= 0 && value<Console.BufferHeight)
                 _y = value;
             }
         }
@@ -115,6 +119,7 @@ namespace CourseWork
             }
             set
             {
+                if (value>0)
                 _ySave = value;
             }
         }
@@ -149,6 +154,28 @@ namespace CourseWork
             ForeColor = frontColor;
             this.Position(x, y);
             Console.WriteLine(str);
+        }
+
+        public void ScreenВrawing()
+        {
+            this.BackColor = ConsoleColor.DarkBlue;
+            Console.Clear();
+            //прорисовка экрана
+            //горизонтальная 
+            var lines0 = new Lines(1, 0, ConsoleColor.Blue);
+            lines0.Horizontal('_', Width);
+            //вертикальная
+            var lines20 = new Lines(0, 1, ConsoleColor.Blue);
+            lines20.Vertical('|', Height);
+            //вертикальная
+            var lines30 = new Lines(Width / 2, 1, ConsoleColor.Blue);
+            lines30.Vertical('|', Height);
+            //вертикальная
+            var lines40 = new Lines(Width - 2, 1, ConsoleColor.Blue);
+            lines40.Vertical('|', Height);
+            //горизонтальная 
+            var lines50 = new Lines(1, Height - 2, ConsoleColor.Blue);
+            lines50.Horizontal('_', Width);
         }
     }
 }
